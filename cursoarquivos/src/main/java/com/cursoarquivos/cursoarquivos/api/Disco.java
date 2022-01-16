@@ -12,20 +12,38 @@ public class Disco {
 
 	private File diretorio = new File("");
 
-	private String caminho = diretorio.getAbsolutePath().replace("\\", "/")+"/src/main/resources/arquivos";
-	
-	public void salvarFoto(MultipartFile foto) {
+	private String caminho = diretorio.getAbsolutePath().replace("\\", "/") + "/src/main/resources/arquivo";
+
+	public void salvarArquivo(MultipartFile arquivo) {
 
 		Path diretorioPath = Paths.get(caminho);
-		Path arquivoPath = diretorioPath.resolve(foto.getOriginalFilename());
+		Path arquivoPath = diretorioPath.resolve(arquivo.getOriginalFilename());
 
 		try {
 			File diretorioFile = new File(this.caminho);
 			diretorioFile.mkdirs();
-			foto.transferTo(arquivoPath.toFile());
+			arquivo.transferTo(arquivoPath.toFile());
 		} catch (Exception e) {
-			
+			System.out.println("ERRRRROOOOOOOOOOO: " + e.getLocalizedMessage());
 		}
 	}
-	
+
+	public void salvarArquivos(MultipartFile filestext[]) {
+
+		Path diretorioPath = Paths.get(caminho);
+
+		for (int i = 0; i < filestext.length; i++) {
+			Path arquivoPath = diretorioPath.resolve(filestext[i].getOriginalFilename());
+
+			try {
+				File diretorioFile = new File(this.caminho);
+				diretorioFile.mkdirs();
+				filestext[i].transferTo(arquivoPath.toFile());
+			} catch (Exception e) {
+				System.out.println("ERRRRROOOOOOOOOOO: " + e.getLocalizedMessage());
+			}
+		}
+
+	}
+
 }
